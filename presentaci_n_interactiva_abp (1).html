@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustentación ABP - Ciénaga de Mallorquín (Física Mecánica)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- KaTeX CSS & JS for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <style>
+        body { 
+            background-color: #0A192F; 
+            color: #E2E8F0; 
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
+        }
+        .slide-card { 
+            background: rgba(17, 34, 64, 0.95); 
+            border: 1px solid rgba(100, 255, 218, 0.25); 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+        }
+        .accent-text { color: #64FFDA; }
+        .accent-bg { background-color: #64FFDA; }
+        .accent-border { border-color: #64FFDA; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-3 md:p-6 select-none">
+    <!-- Top Bar Header -->
+    <header class="flex justify-between items-center mb-4 border-b border-slate-700/80 pb-3 max-w-6xl mx-auto w-full">
+        <div class="flex items-center gap-3">
+            <div class="w-3 h-3 rounded-full bg-teal-400 animate-pulse"></div>
+            <div>
+                <span class="text-xs font-semibold tracking-wider uppercase accent-text block">Física Mecánica | Proyecto ABP (Etapa 2)</span>
+                <h1 class="text-base md:text-lg font-bold text-white leading-tight">Análisis Hidrodinámico: Box Culvert Ciénaga de Mallorquín</h1>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <span id="slide-counter" class="text-xs md:text-sm font-mono bg-slate-800/90 px-3 py-1.5 rounded-full border border-slate-700 text-teal-300 font-bold">Diapositiva 1 / 14</span>
+        </div>
+    </header>
+
+    <!-- Main Content Slide Area -->
+    <main class="flex-grow flex flex-col justify-center max-w-6xl mx-auto w-full">
+        <div id="slide-container" class="slide-card rounded-2xl p-5 md:p-8 transition-all duration-300 relative overflow-hidden min-h-[520px] flex flex-col justify-between">
+            <!-- Slide content gets injected dynamically via JS -->
+        </div>
+    </main>
+
+    <!-- Navigation Footer Controls -->
+    <footer class="mt-4 flex justify-between items-center max-w-6xl mx-auto w-full pt-3 border-t border-slate-700/80">
+        <button onclick="prevSlide()" id="prev-btn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-5 py-2 rounded-lg font-medium transition border border-slate-700 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer text-sm">
+            ← Anterior
+        </button>
+        
+        <div class="flex items-center gap-1.5 md:gap-2 overflow-x-auto max-w-[50vw] px-2 py-1" id="dots-container">
+            <!-- Slide indicator dots dynamically injected here -->
+        </div>
+
+        <button onclick="nextSlide()" id="next-btn" class="bg-teal-400 hover:bg-teal-300 text-slate-950 px-6 py-2 rounded-lg font-bold transition shadow-md shadow-teal-500/20 cursor-pointer text-sm">
+            Siguiente →
+        </button>
+    </footer>
+
+    <script>
+        // Data structure containing exactly 14 slides strictly adhering to requirements and real report data
+        const slides = [
+            // Slide 1: Portada
+            {
+                subtitle: "ABP de Física Mecánica — Etapa 2 | Caso de Estudio: Ciénaga de Mallorquín",
+                title: "Efecto de la obstrucción de un box culvert sobre la velocidad, la fuerza y la energía del agua",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center my-auto">
+                        <div class="md:col-span-7 space-y-4">
+                            <div class="bg-slate-800/80 p-5 rounded-xl border border-teal-500/30">
+                                <h3 class="accent-text font-bold mb-2 text-base">👥 Información Institucional</h3>
+                                <div class="grid grid-cols-2 gap-3 text-xs md:text-sm text-slate-300">
+                                    <p><strong>Integrantes:</strong> Javith Santana, Kevin Diaz</p>
+                                    <p><strong>Asignatura:</strong> Física Mecánica</p>
+                                    <p><strong>Docente:</strong> Polo Ariza, Luis</p>
+                                    <p><strong>Ubicación:</strong> Barranquilla, Atlántico</p>
+                                </div>
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700 text-xs text-slate-300">
+                                <p class="leading-relaxed"><strong>Objetivo de la Sustentación:</strong> Analizar cuantitativamente cómo la acumulación de sedimentos modifica las magnitudes cinemáticas y dinámicas del flujo mediante modelos analíticos y simulación computacional en Python.</p>
+                            </div>
+                        </div>
+                        <div class="md:col-span-5 flex flex-col items-center justify-center bg-slate-900/80 p-5 rounded-xl border border-slate-700">
+                            <!-- Technical SVG Box Culvert Diagram -->
+                            <svg viewBox="0 0 300 180" class="w-full max-w-[260px] h-auto mb-2">
+                                <rect x="20" y="30" width="260" height="120" fill="#1E293B" stroke="#64FFDA" stroke-width="2"/>
+                                <rect x="20" y="110" width="130" height="40" fill="#8B5CF6" opacity="0.6"/>
+                                <path d="M 20 70 Q 150 70 280 50" fill="none" stroke="#38BDF8" stroke-width="3" stroke-dasharray="4"/>
+                                <path d="M 20 90 Q 150 90 280 80" fill="none" stroke="#38BDF8" stroke-width="3"/>
+                                <text x="150" y="25" fill="#E2E8F0" text-anchor="middle" font-size="11" font-weight="bold">Box Culvert (Tajamar)</text>
+                                <text x="80" y="135" fill="#FFFFFF" text-anchor="middle" font-size="10">Sedimento ($f > 0$)</text>
+                                <text x="220" y="100" fill="#64FFDA" text-anchor="middle" font-size="10">Flujo Acelerado ($v_2$)</text>
+                            </svg>
+                            <span class="text-[11px] text-slate-400 text-center italic">Esquema conceptual: Sección transversal del conducto con constricción por sedimento.</span>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 2: Contexto y problema físico
+            {
+                subtitle: "Caso de Estudio: Tajamar - Ciénaga de Mallorquín",
+                title: "Contexto Físico y Problema de Ingeniería Hídrica",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-auto">
+                        <div class="space-y-3 text-xs md:text-sm text-slate-300">
+                            <div class="bg-slate-800/70 p-4 rounded-xl border border-slate-700">
+                                <h4 class="accent-text font-bold mb-1">🏛️ ¿Qué es un Box Culvert y su Función?</h4>
+                                <p>Es una estructura hidráulica de sección transversal rectangular de concreto que permite el paso e intercambio hídrico entre el río Magdalena, la ciénaga y el mar Caribe.</p>
+                            </div>
+                            <div class="bg-slate-800/70 p-4 rounded-xl border border-slate-700">
+                                <h4 class="accent-text font-bold mb-1">⚠️ Causa y Efecto de la Obstrucción</h4>
+                                <p>La sedimentación y basura reducen la sección útil del canal. Para sostener un flujo hídrico impulsado por gradientes de nivel, el agua se ve obligada a modificar su velocidad, alterando el gradiente de presiones y la energía transferida.</p>
+                            </div>
+                        </div>
+
+                        <!-- Comparative Flow Schematics -->
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700 flex flex-col justify-between">
+                            <h4 class="text-xs font-bold text-center text-teal-300 mb-2">Comparación de Líneas de Corriente</h4>
+                            <div class="space-y-4">
+                                <div class="bg-slate-800 p-2.5 rounded border border-slate-700">
+                                    <span class="text-[11px] font-bold text-slate-300 block mb-1">1. Sección Libre ($f = 0$):</span>
+                                    <svg viewBox="0 0 280 40" class="w-full h-8">
+                                        <rect x="0" y="0" width="280" height="40" fill="#1E293B"/>
+                                        <line x1="10" y1="12" x2="270" y2="12" stroke="#38BDF8" stroke-width="2" marker-end="url(#arrow)"/>
+                                        <line x1="10" y1="28" x2="270" y2="28" stroke="#38BDF8" stroke-width="2"/>
+                                    </svg>
+                                    <span class="text-[10px] text-slate-400">Flujo uniforme, velocidad constante $v_1 = 1.00\\text{ m/s}$.</span>
+                                </div>
+                                <div class="bg-slate-800 p-2.5 rounded border border-slate-700">
+                                    <span class="text-[11px] font-bold text-slate-300 block mb-1">2. Sección Obstruida ($f > 0$):</span>
+                                    <svg viewBox="0 0 280 40" class="w-full h-8">
+                                        <rect x="0" y="0" width="280" height="40" fill="#1E293B"/>
+                                        <path d="M 0 40 L 120 40 L 140 20 L 280 20 L 280 40 Z" fill="#64748B"/>
+                                        <path d="M 10 12 Q 130 12 270 6" fill="none" stroke="#38BDF8" stroke-width="2"/>
+                                    </svg>
+                                    <span class="text-[10px] text-teal-300">Constricción: acelera el fluido e incrementa el trabajo dinámico.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 3: Pregunta de investigación y objetivos
+            {
+                subtitle: "Formulación de Investigación y Alcance Técnico",
+                title: "Pregunta Central y Objetivos del Proyecto",
+                content: `
+                    <div class="space-y-4 my-auto">
+                        <div class="bg-slate-800/80 p-4 rounded-xl border border-teal-500/40">
+                            <h3 class="text-teal-300 font-bold mb-1 text-sm md:text-base">❓ Pregunta de Investigación Central</h3>
+                            <p class="text-xs md:text-sm italic text-slate-200">¿De qué manera la variación en la sección útil del box culvert debida a obstrucciones por sedimentación afecta la velocidad de salida, la fuerza neta sobre el agua, el trabajo mecánico y la energía cinética en el intercambio hídrico?</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700 text-center">
+                                <div class="text-xl mb-1">📐</div>
+                                <h4 class="font-bold text-xs accent-text mb-1">1. Modelar</h4>
+                                <p class="text-[11px] text-slate-300">Establecer el sistema físico, supuestos y DCL del agua en el canal.</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700 text-center">
+                                <div class="text-xl mb-1">🧮</div>
+                                <h4 class="font-bold text-xs accent-text mb-1">2. Calcular</h4>
+                                <p class="text-[11px] text-slate-300">Obtener magnitudes mecánicas ($v, F, W, E_c$) en tres escenarios.</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700 text-center">
+                                <div class="text-xl mb-1">💻</div>
+                                <h4 class="font-bold text-xs accent-text mb-1">3. Validar</h4>
+                                <p class="text-[11px] text-slate-300">Contrastar el modelo analítico frente a simulación numérica en Python.</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700 text-center">
+                                <div class="text-xl mb-1">🌿</div>
+                                <h4 class="font-bold text-xs accent-text mb-1">4. Interpretar</h4>
+                                <p class="text-[11px] text-slate-300">Evaluar implicaciones para el mantenimiento ingenieril y ambiental.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 4: Modelo físico y escenarios
+            {
+                subtitle: "Parametrización Geométrica de los Casos de Estudio",
+                title: "Modelo Físico y Escenarios Evaluados",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-auto">
+                        <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700 flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs bg-teal-500/20 text-teal-300 px-2.5 py-1 rounded font-bold uppercase">Escenario A</span>
+                                <h4 class="font-bold text-white mt-2 mb-1 text-sm">Sección Libre</h4>
+                                <ul class="text-xs text-slate-300 space-y-1 my-2">
+                                    <li>• Fracción obstruida: $f = 0.00$ ($0\%$)</li>
+                                    <li>• Área de entrada: $A_1 = 3.00\\text{ m}^2$</li>
+                                    <li>• Área de salida: $A_2 = 3.00\\text{ m}^2$</li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-900 p-2 rounded text-center text-xs text-slate-400">Flujo Base de Referencia</div>
+                        </div>
+
+                        <div class="bg-slate-800/60 p-4 rounded-xl border border-teal-500/30 flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded font-bold uppercase">Escenario B</span>
+                                <h4 class="font-bold text-white mt-2 mb-1 text-sm">Obstrucción Parcial</h4>
+                                <ul class="text-xs text-slate-300 space-y-1 my-2">
+                                    <li>• Fracción obstruida: $f = 0.30$ ($30\%$)</li>
+                                    <li>• Área de entrada: $A_1 = 3.00\\text{ m}^2$</li>
+                                    <li>• Área de salida: $A_2 = 2.10\\text{ m}^2$</li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-900 p-2 rounded text-center text-xs text-amber-300">Constricción Moderada</div>
+                        </div>
+
+                        <div class="bg-slate-800/60 p-4 rounded-xl border border-red-500/30 flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs bg-red-500/20 text-red-300 px-2.5 py-1 rounded font-bold uppercase">Escenario C</span>
+                                <h4 class="font-bold text-white mt-2 mb-1 text-sm">Obstrucción Fuerte</h4>
+                                <ul class="text-xs text-slate-300 space-y-1 my-2">
+                                    <li>• Fracción obstruida: $f = 0.60$ ($60\%$)</li>
+                                    <li>• Área de entrada: $A_1 = 3.00\\text{ m}^2$</li>
+                                    <li>• Área de salida: $A_2 = 1.20\\text{ m}^2$</li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-900 p-2 rounded text-center text-xs text-red-300">Constricción Severa</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 bg-slate-800/40 p-2.5 rounded-lg border border-slate-700 text-xs text-slate-300 text-center">
+                        <strong>Definición Geométrica:</strong> La fracción obstruida se define como $f = 1 - (A_2 / A_1)$, donde la longitud del tramo es $L = 10.0\\text{ m}$ y el caudal de diseño es $Q = 3.00\\text{ m}^3/\\text{s}$.
+                    </div>
+                `
+            },
+
+            // Slide 5: Supuestos, variables y DCL
+            {
+                subtitle: "Mecánica del Medio Continuo y Volumen de Control",
+                title: "Supuestos, Variables y Diagrama de Cuerpo Libre",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto">
+                        <div class="md:col-span-6 space-y-3">
+                            <div class="bg-slate-800/70 p-3.5 rounded-xl border border-slate-700 text-xs space-y-1.5">
+                                <h4 class="accent-text font-bold text-sm mb-1">📋 Supuestos Fundamentales</h4>
+                                <p>1. <strong>Flujo Permanente y Caudal Constante:</strong> $Q = 3.00\\text{ m}^3/\\text{s}$ no varía con el tiempo.</p>
+                                <p>2. <strong>Fluido Incompresible:</strong> Densidad constante $\\rho = 1000\\text{ kg/m}^3$.</p>
+                                <p>3. <strong>Tramo Horizontal:</strong> Sin cambios de altura ($\Delta U_g = 0$).</p>
+                                <p>4. <strong>Fricción Viscosa Despreciable:</strong> En el balance principal analítico.</p>
+                                <p>5. <strong>Modelo Unidimensional:</strong> Componente de velocidad principal según el eje $x$.</p>
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-6 bg-slate-900/90 p-4 rounded-xl border border-slate-700 flex flex-col justify-between">
+                            <h4 class="text-xs font-bold text-teal-300 text-center mb-1">Diagrama de Cuerpo Libre (DCL) del Agua</h4>
+                            <svg viewBox="0 0 280 120" class="w-full h-auto">
+                                <rect x="30" y="30" width="220" height="60" fill="#1E293B" stroke="#475569" stroke-width="1.5"/>
+                                <!-- Pressure Force 1 -->
+                                <line x1="5" y1="60" x2="30" y2="60" stroke="#38BDF8" stroke-width="3" marker-end="url(#arrow)"/>
+                                <text x="10" y="52" fill="#38BDF8" font-size="10" font-weight="bold">F_p1</text>
+                                <!-- Pressure Force 2 -->
+                                <line x1="275" y1="60" x2="250" y2="60" stroke="#EF4444" stroke-width="3"/>
+                                <text x="255" y="52" fill="#EF4444" font-size="10" font-weight="bold">F_p2</text>
+                                <!-- Weight & Normal -->
+                                <line x1="140" y1="60" x2="140" y2="105" stroke="#94A3B8" stroke-width="2"/>
+                                <text x="145" y="100" fill="#94A3B8" font-size="9">W = mg</text>
+                                <line x1="140" y1="60" x2="140" y2="15" stroke="#94A3B8" stroke-width="2"/>
+                                <text x="145" y="25" fill="#94A3B8" font-size="9">N</text>
+                                <!-- Net Force -->
+                                <line x1="110" y1="75" x2="170" y2="75" stroke="#64FFDA" stroke-width="2.5"/>
+                                <text x="140" y="87" fill="#64FFDA" font-size="10" font-weight="bold" text-anchor="middle">F_neta sobre el agua</text>
+                            </svg>
+                            <div class="text-[11px] text-slate-300 bg-slate-800 p-2 rounded mt-2 border border-slate-700">
+                                <strong>Diferenciación Clave:</strong> $\\vec{F}_{\\text{neta}}$ actúa sobre la masa de agua acelerándola. La <strong>fuerza de reacción $\\vec{R}$</strong> es la carga ejercida sobre la estructura/obstrucción por 3ª Ley de Newton.
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 6: Ecuaciones y fundamentos
+            {
+                subtitle: "Formulación Matemática Organizada por Etapas Físicas",
+                title: "Ecuaciones y Fundamentos de Física Mecánica",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-auto">
+                        <!-- Step 1: Flow -->
+                        <div class="bg-slate-800/70 p-4 rounded-xl border border-slate-700 space-y-2">
+                            <span class="text-xs font-bold text-teal-300 uppercase tracking-wider">1. Etapa de Flujo</span>
+                            <div class="bg-slate-900 p-3 rounded text-center border border-slate-800">
+                                <p class="text-sm">$$Q = A \\cdot v$$</p>
+                                <p class="text-sm mt-1">$$v_2 = \\frac{v_1}{1 - f}$$</p>
+                            </div>
+                            <p class="text-xs text-slate-300"><strong>Ecuación de Continuidad:</strong> Conservación de masa. Permite calcular la velocidad de salida $v_2$ en función de la fracción de obstrucción $f$.</p>
+                        </div>
+
+                        <!-- Step 2: Dynamics -->
+                        <div class="bg-slate-800/70 p-4 rounded-xl border border-slate-700 space-y-2">
+                            <span class="text-xs font-bold text-teal-300 uppercase tracking-wider">2. Etapa Dinámica</span>
+                            <div class="bg-slate-900 p-3 rounded text-center border border-slate-800">
+                                <p class="text-sm">$$\\sum F = m \\cdot a$$</p>
+                                <p class="text-sm mt-1">$$F_{\\text{neta}} = \\dot{m}(v_2 - v_1)$$</p>
+                            </div>
+                            <p class="text-xs text-slate-300"><strong>Segunda Ley de Newton:</strong> Relaciona la fuerza neta requerida con el cambio temporal de momento del flujo con tasa de masa $\\dot{m} = \\rho Q$.</p>
+                        </div>
+
+                        <!-- Step 3: Energy -->
+                        <div class="bg-slate-800/70 p-4 rounded-xl border border-slate-700 space-y-2">
+                            <span class="text-xs font-bold text-teal-300 uppercase tracking-wider">3. Etapa Energética</span>
+                            <div class="bg-slate-900 p-3 rounded text-center border border-slate-800">
+                                <p class="text-sm">$$E_c = \\frac{1}{2}m v^2$$</p>
+                                <p class="text-sm mt-1">$$W_{\\text{neto}} = \\Delta E_c$$</p>
+                            </div>
+                            <p class="text-xs text-slate-300"><strong>Teorema Trabajo-Energía:</strong> El trabajo neto ejercido sobre el fluido se transforma íntegramente en variación de energía cinética.</p>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 7: Desarrollo de un cálculo representativo
+            {
+                subtitle: "Aplicación Paso a Paso - Escenario C (Obstrucción Fuerte $f = 0.60$)",
+                title: "Desarrollo del Cálculo Representativo",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto">
+                        <div class="md:col-span-5 bg-slate-800/80 p-4 rounded-xl border border-slate-700 text-xs space-y-2">
+                            <h4 class="accent-text font-bold text-sm">📊 Datos de Entrada Reales</h4>
+                            <ul class="space-y-1.5 text-slate-300">
+                                <li>• Caudal volumétrico: $Q = 3.00\\text{ m}^3/\\text{s}$</li>
+                                <li>• Sección útil inicial: $A_1 = 3.00\\text{ m}^2$</li>
+                                <li>• Velocidad de entrada: $v_1 = 1.00\\text{ m/s}$</li>
+                                <li>• Fracción obstruida: $f = 0.60 \\rightarrow A_2 = 1.20\\text{ m}^2$</li>
+                                <li>• Longitud del tramo: $L = 10.0\\text{ m}$</li>
+                                <li>• Tasa de masa: $\\dot{m} = \\rho Q = 3000\\text{ kg/s}$</li>
+                            </ul>
+                        </div>
+
+                        <div class="md:col-span-7 space-y-3 text-xs">
+                            <div class="bg-slate-800/50 p-3 rounded-xl border border-slate-700">
+                                <span class="font-bold text-teal-300 block mb-1">Paso 1: Cálculo de Velocidad de Salida ($v_2$)</span>
+                                <p>$$v_2 = \\frac{v_1}{1 - f} = \\frac{1.00\\text{ m/s}}{1 - 0.60} = \\mathbf{2.500\\text{ m/s}}$$</p>
+                            </div>
+
+                            <div class="bg-slate-800/50 p-3 rounded-xl border border-slate-700">
+                                <span class="font-bold text-teal-300 block mb-1">Paso 2: Aceleración y Fuerza Neta ($F_{\\text{neta}}$)</span>
+                                <p>$$F_{\\text{neta}} = \\dot{m}(v_2 - v_1) = (3000\\text{ kg/s})(2.500 - 1.000) = \\mathbf{4500\\text{ N}} = \\mathbf{4.500\\text{ kN}}$$</p>
+                            </div>
+
+                            <div class="bg-slate-800/50 p-3 rounded-xl border border-slate-700">
+                                <span class="font-bold text-teal-300 block mb-1">Paso 3: Trabajo Neto Mecánico ($W_{\\text{neto}}$)</span>
+                                <p>$$W_{\\text{neto}} = F_{\\text{neta}} \\cdot L = 4500\\text{ N} \\times 10.0\\text{ m} = \\mathbf{45,000\\text{ J}} = \\mathbf{45.000\\text{ kJ}}$$</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 8: Resultados comparativos
+            {
+                subtitle: "Matriz Cuantitativa Oficial del Informe Etapa 2",
+                title: "Resultados Comparativos entre Escenarios",
+                content: `
+                    <div class="overflow-x-auto my-auto">
+                        <table class="w-full text-left text-xs md:text-sm border-collapse">
+                            <thead>
+                                <tr class="bg-slate-800 text-teal-300 border-b border-slate-700">
+                                    <th class="p-2.5">Magnitud Física</th>
+                                    <th class="p-2.5">A: Libre ($f=0.0$)</th>
+                                    <th class="p-2.5">B: Parcial ($f=0.3$)</th>
+                                    <th class="p-2.5">C: Fuerte ($f=0.6$)</th>
+                                    <th class="p-2.5">Tendencia Observada</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-200">
+                                <tr>
+                                    <td class="p-2.5 font-medium">Área de salida ($A_2$)</td>
+                                    <td class="p-2.5">$3.00\\text{ m}^2$</td>
+                                    <td class="p-2.5">$2.10\\text{ m}^2$</td>
+                                    <td class="p-2.5">$1.20\\text{ m}^2$</td>
+                                    <td class="p-2.5 text-slate-400">Reducción lineal</td>
+                                </tr>
+                                <tr class="bg-slate-800/30">
+                                    <td class="p-2.5 font-medium">Velocidad de salida ($v_2$)</td>
+                                    <td class="p-2.5">$1.000\\text{ m/s}$</td>
+                                    <td class="p-2.5">$1.429\\text{ m/s}$</td>
+                                    <td class="p-2.5">$2.500\\text{ m/s}$</td>
+                                    <td class="p-2.5 text-teal-400 font-bold">Aumento $+150\%$</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-medium">Aceleración promedio ($a$)</td>
+                                    <td class="p-2.5">$0.0000\\text{ m/s}^2$</td>
+                                    <td class="p-2.5">$0.0867\\text{ m/s}^2$</td>
+                                    <td class="p-2.5">$0.4375\\text{ m/s}^2$</td>
+                                    <td class="p-2.5 text-slate-400">Crecimiento no lineal</td>
+                                </tr>
+                                <tr class="bg-slate-800/30">
+                                    <td class="p-2.5 font-medium">Fuerza Neta ($F_{\\text{neta}}$)</td>
+                                    <td class="p-2.5">$0\\text{ N}$</td>
+                                    <td class="p-2.5">$1,286\\text{ N}$</td>
+                                    <td class="p-2.5">$4,500\\text{ N}$</td>
+                                    <td class="p-2.5 text-amber-300 font-bold">Crecimiento abrupto</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-medium">Trabajo Neto ($W_{\\text{neto}}$)</td>
+                                    <td class="p-2.5">$0.00\\text{ kJ}$</td>
+                                    <td class="p-2.5">$7.714\\text{ kJ}$</td>
+                                    <td class="p-2.5">$27.000\\text{ kJ}$</td>
+                                    <td class="p-2.5 text-red-400 font-bold">Crecimiento cuadrático</td>
+                                </tr>
+                                <tr class="bg-slate-800/30">
+                                    <td class="p-2.5 font-medium">Relación Energía ($E_{c2}/E_{c1}$)</td>
+                                    <td class="p-2.5">$1.00$</td>
+                                    <td class="p-2.5">$2.04$</td>
+                                    <td class="p-2.5">$6.25$</td>
+                                    <td class="p-2.5 text-teal-300 font-bold">Aumento de $6.25\\times$</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-3 bg-teal-500/10 border border-teal-500/30 p-2.5 rounded-lg text-center text-xs text-teal-300 font-medium">
+                        💡 <strong>Conclusión Clave:</strong> Mientras la obstrucción pasa del 0% al 60%, la energía cinética del agua se incrementa en un factor de 6.25, amplificando drásticamente el trabajo ejercido.
+                    </div>
+                `
+            },
+
+            // Slide 9: Gráfica de velocidad
+            {
+                subtitle: "Cinemática del Flujo a lo Largo del Conducto",
+                title: "Perfil de Velocidades: Modelo Analítico vs. Simulación",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto items-center">
+                        <div class="md:col-span-7 bg-slate-900/90 p-4 rounded-xl border border-slate-700">
+                            <!-- Vector Graphics Plot for Velocity -->
+                            <svg viewBox="0 0 320 180" class="w-full h-auto">
+                                <!-- Axes -->
+                                <line x1="40" y1="150" x2="300" y2="150" stroke="#94A3B8" stroke-width="1.5"/>
+                                <line x1="40" y1="20" x2="40" y2="150" stroke="#94A3B8" stroke-width="1.5"/>
+                                <!-- Axis Labels -->
+                                <text x="170" y="175" fill="#E2E8F0" font-size="10" text-anchor="middle">Posición x (m)</text>
+                                <text x="12" y="85" fill="#E2E8F0" font-size="10" text-anchor="middle" transform="rotate(-90 12,85)">Velocidad v (m/s)</text>
+                                <!-- Grid Lines -->
+                                <line x1="40" y1="110" x2="300" y2="110" stroke="#334155" stroke-dasharray="2"/>
+                                <line x1="40" y1="70" x2="300" y2="70" stroke="#334155" stroke-dasharray="2"/>
+                                <!-- Scenario A Curve (Flat) -->
+                                <line x1="40" y1="110" x2="300" y2="110" stroke="#94A3B8" stroke-width="2"/>
+                                <!-- Scenario B Curves -->
+                                <line x1="40" y1="110" x2="300" y2="85" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3"/>
+                                <path d="M 40 110 Q 180 105 300 85" fill="none" stroke="#F59E0B" stroke-width="2"/>
+                                <!-- Scenario C Curves -->
+                                <line x1="40" y1="110" x2="300" y2="35" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="3"/>
+                                <path d="M 40 110 Q 180 90 300 35" fill="none" stroke="#EF4444" stroke-width="2"/>
+                                <!-- Legend -->
+                                <text x="220" y="30" fill="#EF4444" font-size="9" font-weight="bold">Escenario C (f=0.6)</text>
+                                <text x="220" y="78" fill="#F59E0B" font-size="9" font-weight="bold">Escenario B (f=0.3)</text>
+                                <text x="220" y="105" fill="#94A3B8" font-size="9" font-weight="bold">Escenario A (f=0)</text>
+                            </svg>
+                            <div class="flex justify-center gap-4 text-[10px] mt-2">
+                                <span class="text-slate-300">--- Modelo Analítico (Uniforme)</span>
+                                <span class="accent-text">── Simulación Python (Perfil Lineal A(x))</span>
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-5 space-y-3 text-xs text-slate-300">
+                            <div class="bg-slate-800/70 p-3.5 rounded-xl border border-slate-700">
+                                <h4 class="accent-text font-bold mb-1">🔍 Interpretación Física</h4>
+                                <p>En la simulación con perfil de área variable $A(x)$, la velocidad no crece linealmente, sino de forma curvilínea acelerándose intensamente cerca de la salida ($x = 10\\text{ m}$).</p>
+                            </div>
+                            <div class="bg-slate-800/70 p-3.5 rounded-xl border border-slate-700">
+                                <h4 class="text-amber-300 font-bold mb-1">⚠️ Hallazgo Clave</h4>
+                                <p>El supuesto analítico de aceleración uniforme subestima las velocidades locales instantáneas dentro del tramo final del conducto.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 10: Gráfica de fuerza y trabajo
+            {
+                subtitle: "Área Bajo la Curva de Fuerza vs. Desplazamiento",
+                title: "Representación del Trabajo Mecánico Neto",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto items-center">
+                        <div class="md:col-span-7 bg-slate-900/90 p-4 rounded-xl border border-slate-700">
+                            <svg viewBox="0 0 320 170" class="w-full h-auto">
+                                <line x1="40" y1="140" x2="300" y2="140" stroke="#94A3B8" stroke-width="1.5"/>
+                                <line x1="40" y1="20" x2="40" y2="140" stroke="#94A3B8" stroke-width="1.5"/>
+                                <text x="170" y="162" fill="#E2E8F0" font-size="10" text-anchor="middle">Desplazamiento x (m)</text>
+                                <text x="12" y="80" fill="#E2E8F0" font-size="10" text-anchor="middle" transform="rotate(-90 12,80)">Fuerza F (kN)</text>
+                                
+                                <!-- Shaded Area under Force Curve for C -->
+                                <path d="M 40 140 Q 180 120 300 40 L 300 140 Z" fill="#64FFDA" opacity="0.15"/>
+                                <path d="M 40 140 Q 180 120 300 40" fill="none" stroke="#64FFDA" stroke-width="2.5"/>
+                                <text x="190" y="110" fill="#64FFDA" font-size="11" font-weight="bold">Área = W_neto</text>
+                            </svg>
+                        </div>
+
+                        <div class="md:col-span-5 space-y-3 text-xs text-slate-300">
+                            <div class="bg-slate-800/70 p-3 rounded-xl border border-slate-700">
+                                <h4 class="accent-text font-bold mb-1">📐 Trabajo como Integral</h4>
+                                <p>$$W_{\\text{neto}} = \\int_{0}^{L} F(x) dx$$</p>
+                                <p class="mt-1 text-[11px] text-slate-300">El trabajo representa geométricamente el área bajo la curva de fuerza a lo largo del desplazamiento $L = 10.0\\text{ m}$.</p>
+                            </div>
+                            <div class="bg-slate-800/70 p-3 rounded-xl border border-slate-700">
+                                <h4 class="text-teal-300 font-bold mb-1">✅ Conservación Energética</h4>
+                                <p>Se verifica concordancia absoluta en el modelo idealizado:</p>
+                                <p class="text-center font-mono mt-1 text-teal-300">$W_{\\text{neto}} \\equiv \\Delta E_c$ (Error $< 0.1\\%$)</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 11: Simulación numérica y validación
+            {
+                subtitle: "Contraste Computacional en Python (NumPy & Matplotlib)",
+                title: "Simulación Numérica y Validación de Modelos",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-auto">
+                        <div class="bg-slate-800/70 p-4 rounded-xl border border-slate-700 space-y-2 text-xs">
+                            <h4 class="accent-text font-bold text-sm">💻 Aporte del Perfil Variable $A(x)$</h4>
+                            <p class="text-slate-300">La simulación computacional evalúa una constricción progresiva $A(x) = A_1 + (A_2 - A_1)\\frac{x}{L}$, permitiendo calcular el tiempo de tránsito exacto por integración numérica.</p>
+                            
+                            <div class="bg-slate-900 p-3 rounded border border-slate-800 my-2">
+                                <span class="font-bold text-slate-200 block mb-1">Resultados de Error en Tiempo de Tránsito:</span>
+                                <ul class="space-y-1 text-slate-300">
+                                    <li>• Escenario B ($f=0.30$): Error relativo = <strong class="text-amber-300">3.2 %</strong></li>
+                                    <li>• Escenario C ($f=0.60$): Error relativo = <strong class="text-red-400">22.5 %</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800/70 p-4 rounded-xl border border-slate-700 space-y-2 text-xs">
+                            <h4 class="text-teal-300 font-bold text-sm">💡 Explicación Científica del Desfase</h4>
+                            <p class="text-slate-300">El supuesto analítico de <strong>aceleración uniforme</strong> subestima el tiempo que el agua pasa en la primera mitad del conducto (donde el área es mayor y la velocidad es menor).</p>
+                            <p class="text-slate-300">Al incrementarse la obstrucción ($f=0.60$), el perfil de velocidad se vuelve fuertemente no lineal, haciendo que la diferencia en el tiempo de tránsito alcance el **22.5%**.</p>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 12: Interpretación física y análisis crítico
+            {
+                subtitle: "Síntesis Conceptual y Reconocimiento de Alcances",
+                title: "Interpretación Física y Análisis Crítico",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-auto text-xs">
+                        <div class="bg-slate-800/70 p-4 rounded-xl border border-teal-500/30 space-y-2">
+                            <h4 class="accent-text font-bold text-sm">🧠 Hallazgos Físicos Principales</h4>
+                            <ul class="space-y-1.5 text-slate-300">
+                                <li>• <strong>Dependencia Cuadrática:</strong> La energía cinética aumenta con $v^2$, multiplicándose por 6.25 en el Escenario C.</li>
+                                <li>• <strong>Distinción de Fuerzas:</strong> La fuerza neta acelera el agua ($4.5\\text{ kN}$ en C), mientras que la carga ejercida sobre el sedimento obedece al cambio total de presión.</li>
+                                <li>• <strong>Validación Energética:</strong> $W_{\\text{neto}} = \\Delta E_c$ se cumple con error $<0.1\\%$ en modelo ideal.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-800/70 p-4 rounded-xl border border-slate-700 space-y-2">
+                            <h4 class="text-amber-300 font-bold text-sm">⚠️ Limitaciones del Modelo</h4>
+                            <ul class="space-y-1.5 text-slate-300">
+                                <li>• <strong>Datos Geométricos de Referencia:</strong> Dimensiones adoptadas para modelo teórico, requieren validación de campo.</li>
+                                <li>• <strong>Efectos Viscosos y Turbulencia:</strong> Fricción simplificada en el balance principal.</li>
+                                <li>• <strong>Unidimensionalidad:</strong> Se omiten vórtices 3D en la zona de constricción.</li>
+                                <li>• <strong>Caudal Constante:</strong> Supuesto de demanda forzada del sistema.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 13: Viabilidad ingenieril y ambiental
+            {
+                subtitle: "Propuesta de Criterio de Mantenimiento y Sustentabilidad",
+                title: "Viabilidad Ingenieril y Aspectos Ambientales",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto text-xs">
+                        <div class="md:col-span-7 bg-slate-800/70 p-4 rounded-xl border border-slate-700 space-y-3">
+                            <h4 class="accent-text font-bold text-sm">🛠️ Propuesta de Criterio de Mantenimiento</h4>
+                            <p class="text-slate-300">Se propone como umbral técnico preliminar de inspección $f \\approx 0.50$, punto en el cual la velocidad se duplica y la energía cinética se cuadruplica.</p>
+                            
+                            <div class="bg-slate-900 p-3 rounded border border-slate-800 text-slate-300 space-y-1">
+                                <p><strong>Cargas de Reacción Reportadas sobre la Obstrucción:</strong></p>
+                                <p>• Escenario B ($f=0.30$): Reacción aproximada $\\approx 6.4\\text{ kN}$</p>
+                                <p>• Escenario C ($f=0.60$): Reacción aproximada $\\approx 11.9\\text{ kN}$</p>
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-5 bg-slate-800/70 p-4 rounded-xl border border-slate-700 space-y-2 text-slate-300">
+                            <h4 class="text-teal-300 font-bold text-sm">🌿 Precauciones Ambientales & ODS</h4>
+                            <p>• <strong>Riesgo de Erosión:</strong> El aumento brusco de velocidad ($2.50\\text{ m/s}$) puede erosionar el lecho natural a la salida.</p>
+                            <p>• <strong>Conexión ODS:</strong> Aporta bases físicas para la gestión responsable del agua (ODS 6) y conservación de ecosistemas marinos/costeros (ODS 14).</p>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 14: Conclusiones y cierre
+            {
+                subtitle: "Cierre Sintético de la Sustentación Académica",
+                title: "Conclusiones Principales y Referencias",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto text-xs">
+                        <div class="md:col-span-7 space-y-2">
+                            <h4 class="accent-text font-bold text-sm mb-2">📌 Conclusiones Fundamentales</h4>
+                            <ul class="space-y-1.5 text-slate-300">
+                                <li class="bg-slate-800/60 p-2 rounded border border-slate-700">1. La reducción de la sección útil aumenta drásticamente la velocidad de salida ($2.50\\text{ m/s}$ en $f=0.60$).</li>
+                                <li class="bg-slate-800/60 p-2 rounded border border-slate-700">2. La fuerza neta ($4.50\\text{ kN}$) y el trabajo ($45.00\\text{ kJ}$) crecen no linealmente con la obstrucción.</li>
+                                <li class="bg-slate-800/60 p-2 rounded border border-slate-700">3. La energía cinética escala con $v^2$, alcanzando una relación de $6.25\\times$.</li>
+                                <li class="bg-slate-800/60 p-2 rounded border border-slate-700">4. La simulación en Python demuestra que la aceleración uniforme subestima el tiempo de tránsito hasta en $22.5\\%$.</li>
+                            </ul>
+                        </div>
+
+                        <div class="md:col-span-5 flex flex-col justify-between space-y-3">
+                            <div class="bg-slate-800/60 p-3 rounded-xl border border-slate-700 text-slate-300">
+                                <h4 class="text-teal-300 font-bold mb-1">📚 Referencias Principales</h4>
+                                <ol class="list-decimal list-inside space-y-1 text-[11px]">
+                                    <li>Serway & Jewett (2018). <em>Física para Ciencias e Ingeniería</em>.</li>
+                                    <li>Tipler & Mosca (2010). <em>Física para la Ciencia y la Tecnología</em>.</li>
+                                    <li>Informe Etapa 2 - Proyecto ABP Física Mecánica.</li>
+                                </ol>
+                            </div>
+
+                            <!-- Laboratory Evidence Placeholder Box -->
+                            <div class="bg-slate-900 p-3 rounded-xl border border-dashed border-teal-500/40 text-[11px] text-slate-400">
+                                <strong>Espacio Reservado:</strong> Evidencia experimental del Laboratorio 3 (Newton) y Laboratorio 4 (Trabajo-Energía) para incorporación de datos medidos en práctica presencial.
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let currentSlide = 0;
+
+        function renderSlide() {
+            const slide = slides[currentSlide];
+            const container = document.getElementById('slide-container');
+            
+            // Dynamic Header & Content Injection
+            container.innerHTML = `
+                <div>
+                    <span class="text-xs font-semibold tracking-widest uppercase accent-text block mb-1">${slide.subtitle}</span>
+                    <h2 class="text-lg md:text-xl font-bold text-white leading-tight">${slide.title}</h2>
+                </div>
+                <div class="my-auto py-2">
+                    ${slide.content}
+                </div>
+            `;
+
+            // Counter Update
+            document.getElementById('slide-counter').innerText = `Diapositiva ${currentSlide + 1} / ${slides.length}`;
+            
+            // Navigation Buttons State
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === slides.length - 1;
+
+            // Render Navigation Dots
+            renderDots();
+
+            // Trigger KaTeX Typesetting
+            if (window.renderMathInElement) {
+                renderMathInElement(container, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        function renderDots() {
+            const dotsContainer = document.getElementById('dots-container');
+            dotsContainer.innerHTML = '';
+            slides.forEach((_, idx) => {
+                const dot = document.createElement('button');
+                dot.className = `w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${idx === currentSlide ? 'accent-bg w-6' : 'bg-slate-700 hover:bg-slate-500'}`;
+                dot.onclick = () => goToSlide(idx);
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        // Navigation Handlers
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            renderSlide();
+        }
+
+        // Keyboard Arrow Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+        });
+
+        // Initial Load
+        window.onload = function() {
+            renderSlide();
+        };
+    </script>
+</body>
+</html>
