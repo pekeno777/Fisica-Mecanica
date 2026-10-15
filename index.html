@@ -553,7 +553,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-auto">
                         <div class="bg-slate-800/70 p-4 rounded-xl border border-slate-700 space-y-2 text-xs">
                             <h4 class="accent-text font-bold text-sm">💻 Aporte del Perfil Variable A(x)</h4>
-                            <p class="text-slate-300">La simulación computacional evalúa una constricción progresiva $A(x) = A_1 + (A_2 - A_1)\\frac{x}{L}$, permitiendo calcular el tiempo de tránsito exacto por integración numérica.</p>
+                            <p class="text-slate-300">La simulación computacional evalúa una constricción progresiva $A(x) = A_1 + (A_2 - A_1)\frac{x}{L}$, permitiendo calcular el tiempo de tránsito exacto por integración numérica.</p>
                             
                             <div class="bg-slate-900 p-3 rounded border border-slate-800 my-2">
                                 <span class="font-bold text-slate-200 block mb-1">Resultados de Error en Tiempo de Tránsito:</span>
@@ -573,7 +573,59 @@
                 `
             },
 
-            // Slide 13: Interpretación física y análisis crítico
+            // Slide 13: Explicación del Código Python
+            {
+                subtitle: "Modelación Algorítmica y Simulación Computacional",
+                title: "Estructura y Funcionamiento del Código Python",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 my-auto text-xs">
+                        <!-- Left Column: Python Code Snippet Display -->
+                        <div class="md:col-span-6 bg-slate-900/90 p-3.5 rounded-xl border border-slate-700 space-y-2">
+                            <div class="flex items-center justify-between border-b border-slate-700 pb-1.5">
+                                <span class="accent-text font-bold text-xs font-mono">🐍 Script Python: modelo_box_culvert.py</span>
+                                <span class="text-[10px] bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded font-mono">RK4 + Trapecio</span>
+                            </div>
+                            <pre class="bg-slate-950 p-2.5 rounded text-[10px] font-mono text-teal-200 overflow-x-auto leading-relaxed border border-slate-800 max-h-[250px]"><code><span class="text-slate-500"># 1. Definición Geométrico-Física</span>
+b, h, d, rho, g, v1 = 2.0, 1.5, 6.0, 1000.0, 9.81, 1.0
+A1 = b * h; Q = A1 * v1; hc = h / 2; P1 = rho * g * hc
+
+<span class="text-slate-500"># 2. Función de Integración Numérica RK4</span>
+<span class="text-purple-400">def</span> <span class="text-blue-400">simulate_constant_acceleration</span>(distance, initial_v, acceleration):
+    <span class="text-slate-500"># Integra dx/dt = v, dv/dt = a hasta x = d</span>
+    k1x, k1v = v, acceleration
+    k2x, k2v = v + 0.5*step*k1v, acceleration
+    k3x, k3v = v + 0.5*step*k2v, acceleration
+    k4x, k4v = v + step*k3v, acceleration
+    x_next = x + step * (k1x + 2*k2x + 2*k3x + k4x) / 6
+    <span class="text-purple-400">return</span> ts, xs, vs
+
+<span class="text-slate-500"># 3. Integración de Trabajo por Trapecios</span>
+<span class="text-purple-400">def</span> <span class="text-blue-400">trapezoid</span>(y, x):
+    <span class="text-purple-400">return</span> sum((y[i]+y[i+1])*(x[i+1]-x[i])/2 <span class="text-purple-400">for</span> i <span class="text-purple-400">in</span> range(len(x)-1))</code></pre>
+                            <p class="text-[10px] text-slate-400 italic">El script automatiza los cálculos hidrodinámicos y exporta los perfiles continuos a formato JSON.</p>
+                        </div>
+
+                        <!-- Right Column: Functionality Explanations -->
+                        <div class="md:col-span-6 space-y-2 text-xs">
+                            <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                                <h4 class="accent-text font-bold mb-1">⚙️ ¿Qué hace cada sección del código?</h4>
+                                <ul class="space-y-1.5 text-slate-300 text-[11px]">
+                                    <li>• <strong>Parametrización Inicial:</strong> Setea la geometría ($b=2.0\text{m}, h=1.5\text{m}, d=6.0\text{m}$), el caudal constante ($Q=3.0\text{m}^3/\text{s}$) y la presión hidrostática en el centroide ($P_1 = \rho g h_c$).</li>
+                                    <li>• <strong>Integrador RK4 (<code class="text-teal-300">simulate_constant_acceleration</code>):</strong> Integra las ecuaciones de movimiento cinemático a pasos de $0.001\text{ s}$, deteniendo el avance de forma exacta en el límite del conducto $x = d$.</li>
+                                    <li>• <strong>Módulo de Trapecios (<code class="text-teal-300">trapezoid</code>):</strong> Realiza la integración numérica del trabajo mecánico ($W = \int F dx$) a lo largo del recorrido.</li>
+                                    <li>• <strong>Bucle de Escenarios (A, B, C):</strong> Calcula para $f = 0, 0.3, 0.6$ las variables de continuidad ($v_2$), dinámica ($F = ma$ y $F=\rho Q \Delta v$), trabajo ($W$), Bernoulli ($P_2$), reacción estructural ($R_x$) y errores porcentuales relativos (<code class="text-teal-300">relative_error</code>).</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-teal-500/10 p-2 rounded-lg border border-teal-500/30 text-teal-300 text-[11px]">
+                                💡 <strong>Objeto Payload JSON:</strong> Consolida todos los vectores cinemáticos ($t, x, v, F$) para permitir la visualización gráfica directa en la interfaz interactiva.
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 14: Interpretación física y análisis crítico
             {
                 subtitle: "Síntesis Conceptual y Reconocimiento de Alcances",
                 title: "Interpretación Física y Análisis Crítico",
