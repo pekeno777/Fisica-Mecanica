@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="flex items-center gap-3">
-            <span id="slide-counter" class="text-xs md:text-sm font-mono bg-slate-800/90 px-3 py-1.5 rounded-full border border-slate-700 text-teal-300 font-bold">Diapositiva 1 / 15</span>
+            <span id="slide-counter" class="text-xs md:text-sm font-mono bg-slate-800/90 px-3 py-1.5 rounded-full border border-slate-700 text-teal-300 font-bold">Diapositiva 1 / 16</span>
         </div>
     </header>
 
@@ -64,9 +64,9 @@
     </footer>
 
     <script>
-        // Data structure containing exactly 15 slides including the new dedicated DCL slide
+        // Data structure containing all 16 slides including title, dev, analysis, sim and conclusions
         const slides = [
-            // Slide 1: Portada
+            // Slide 1: Portada Institucional
             {
                 subtitle: "ABP de Física Mecánica — Etapa 2 | Caso de Estudio: Ciénaga de Mallorquín",
                 title: "Efecto de la obstrucción de un box culvert sobre la velocidad, la fuerza y la energía del agua",
@@ -103,7 +103,32 @@
                 `
             },
 
-            // Slide 2: Contexto y problema físico
+            // Slide 2: Titulo del Informe y Autores
+            {
+                subtitle: "Presentación de Documento Técnico",
+                title: "Gestión física de vertimientos mediante principios de mecánica de fluidos",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-auto items-center">
+                        <div class="space-y-4">
+                            <div class="bg-slate-800/80 p-5 rounded-xl border border-teal-500/30">
+                                <h3 class="accent-text font-bold mb-2 text-sm md:text-base">📄 Título del Informe Etapa 2</h3>
+                                <p class="text-sm md:text-base text-white font-medium leading-relaxed">"Gestión física de vertimientos mediante principios de mecánica de fluidos para la reducción de la eutrofización en la Ciénaga de Mallorquín"</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700 text-xs text-slate-300 space-y-2">
+                                <p><strong>Autores:</strong> Santana, Javith & Diaz, Kevin</p>
+                                <p><strong>Docente:</strong> Polo Ariza, Luis</p>
+                                <p><strong>Institución:</strong> Universidad de la Costa (CUC) — 2026</p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-900/80 p-6 rounded-xl border border-slate-700 space-y-3">
+                            <h4 class="accent-text font-bold text-sm">🎯 Eje Temático Central</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed">Análisis riguroso del movimiento del agua al atravesar un tramo de sección reducida representativo de un box culvert del Tajamar de la Ciénaga de Mallorquín, conectando los principios de la mecánica clásica con la solución de problemáticas ambientales regionales.</p>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 3: Contexto y problema físico
             {
                 subtitle: "Caso de Estudio: Tajamar - Ciénaga de Mallorquín",
                 title: "Contexto Físico y Problema de Ingeniería Hídrica",
@@ -148,7 +173,7 @@
                 `
             },
 
-            // Slide 3: Pregunta de investigación y objetivos
+            // Slide 4: Pregunta de investigación y objetivos
             {
                 subtitle: "Formulación de Investigación y Alcance Técnico",
                 title: "Pregunta Central y Objetivos del Proyecto",
@@ -185,7 +210,7 @@
                 `
             },
 
-            // Slide 4: Modelo físico y escenarios
+            // Slide 5: Modelo físico y escenarios
             {
                 subtitle: "Parametrización Geométrica de los Casos de Estudio",
                 title: "Modelo Físico y Escenarios Evaluados",
@@ -231,41 +256,15 @@
                         </div>
                     </div>
                     <div class="mt-3 bg-slate-800/40 p-2.5 rounded-lg border border-slate-700 text-xs text-slate-300 text-center">
-                        <strong>Definición Geométrica:</strong> La fracción obstruida se define como f = 1 - (A2 / A1), donde la longitud del tramo es L = 10.0 m y el caudal de diseño es Q = 3.00 m³/s.
+                        <strong>Definición Geométrica:</strong> La fracción obstruida se define como f = 1 - (A2 / A1), donde la longitud del tramo es L = 6.0 m y el caudal de diseño es Q = 3.00 m³/s.
                     </div>
                 `
             },
 
-            // Slide 5: Supuestos y variables
+            // Slide 6: Supuestos y Diagrama de Cuerpo Libre
             {
                 subtitle: "Mecánica del Medio Continuo y Volumen de Control",
-                title: "Supuestos y Variables del Sistema",
-                content: `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-auto">
-                        <div class="bg-slate-800/70 p-4 rounded-xl border border-slate-700 text-xs space-y-2">
-                            <h4 class="accent-text font-bold text-sm mb-2">📋 Supuestos Fundamentales</h4>
-                            <p>1. <strong>Flujo Permanente y Caudal Constante:</strong> Q = 3.00 m³/s no varía con el tiempo.</p>
-                            <p>2. <strong>Fluido Incompresible:</strong> Densidad constante ρ = 1000 kg/m³.</p>
-                            <p>3. <strong>Tramo Horizontal:</strong> Sin cambios de altura (ΔUg = 0).</p>
-                            <p>4. <strong>Fricción Viscosa Despreciable:</strong> En el balance principal analítico.</p>
-                            <p>5. <strong>Modelo Unidimensional:</strong> Componente de velocidad principal según el eje x.</p>
-                        </div>
-                        <div class="bg-slate-800/70 p-4 rounded-xl border border-slate-700 text-xs space-y-2">
-                            <h4 class="text-teal-300 font-bold text-sm mb-2">📐 Variables Clave del Modelo</h4>
-                            <p>• <strong>Velocidades (v1, v2):</strong> Relacionadas directamente por el área transversal.</p>
-                            <p>• <strong>Fuerza Neta (F_neta):</strong> Impulsa la aceleración del volumen de agua.</p>
-                            <p>• <strong>Trabajo Mecánico (W_neto):</strong> Energía transferida a lo largo del canal.</p>
-                            <p>• <strong>Energía Cinética (Ec):</strong> Escala con el cuadrado de la velocidad.</p>
-                            <p class="mt-2 text-teal-300 italic">En la siguiente diapositiva analizaremos detalladamente el Diagrama de Cuerpo Libre (DCL).</p>
-                        </div>
-                    </div>
-                `
-            },
-
-            // NEW SLIDE (Slide 6): Diagrama de Cuerpo Libre detallado y funciones de fuerza
-            {
-                subtitle: "Análisis Vectorial del Volumen de Control",
-                title: "Diagrama de Cuerpo Libre (DCL) y Funciones de Fuerza",
+                title: "Supuestos, Variables y Diagrama de Cuerpo Libre",
                 content: `
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto items-center">
                         <div class="md:col-span-6 bg-slate-900/90 p-4 rounded-xl border border-slate-700 flex flex-col justify-center items-center">
@@ -304,19 +303,17 @@
                             </svg>
                         </div>
 
-                        <div class="md:col-span-6 space-y-2.5 text-xs">
+                        <div class="md:col-span-6 space-y-2 text-xs">
                             <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
-                                <h4 class="accent-text font-bold mb-1">⚙️ Funciones de Fuerza del Sistema</h4>
-                                <ul class="space-y-1.5 text-slate-300">
-                                    <li>• <strong>Fuerza de Entrada (F_p1):</strong> $F_{p1} = P_1 A_1$ (Presión hidrostática inicial).</li>
-                                    <li>• <strong>Fuerza de Salida (F_p2):</strong> $F_{p2} = P_2 A_2$ (Presión hidrostática final).</li>
-                                    <li>• <strong>Equilibrio Vertical:</strong> $\\sum F_y = N - W = 0$ (Peso equilibrado por la normal del canal).</li>
-                                    <li>• <strong>Segunda Ley de Newton (Eje x):</strong> $\\sum F_x = F_{p1} - F_{p2} = F_{\\text{neta}} = m \\cdot a$.</li>
-                                    <li>• <strong>Cantidad de Movimiento:</strong> $F_{\\text{neta}} = \\dot{m}(v_2 - v_1)$.</li>
-                                </ul>
+                                <h4 class="accent-text font-bold mb-1">📋 Supuestos Fundamentales</h4>
+                                <p>1. <strong>Flujo Permanente y Caudal Constante:</strong> Q = 3.00 m³/s.</p>
+                                <p>2. <strong>Fluido Incompresible:</strong> Densidad constante ρ = 1000 kg/m³.</p>
+                                <p>3. <strong>Tramo Horizontal:</strong> Sin cambios de altura (ΔUg = 0).</p>
+                                <p>4. <strong>Fricción Despreciable:</strong> En el balance principal analítico.</p>
+                                <p>5. <strong>Modelo Unidimensional:</strong> Eje principal x.</p>
                             </div>
                             <div class="bg-teal-500/10 p-2.5 rounded-lg border border-teal-500/30 text-teal-300">
-                                💡 <strong>Diferenciación Clave:</strong> $F_{\\text{neta}}$ acelera internamente al agua, mientras que la <strong>reacción $\\vec{R}$</strong> sobre la obstrucción se obtiene por el principio de acción y reacción (3ª Ley de Newton).
+                                💡 <strong>Diferenciación Clave:</strong> $\vec{F}_{\text{neta}}$ acelera internamente al agua, mientras que la <strong>reacción $\vec{R}$</strong> sobre la obstrucción se obtiene por el principio de acción y reacción (3ª Ley de Newton).
                             </div>
                         </div>
                     </div>
@@ -336,7 +333,7 @@
                                 <p class="text-sm">$$Q = A \\cdot v$$</p>
                                 <p class="text-sm mt-1">$$v_2 = \\frac{v_1}{1 - f}$$</p>
                             </div>
-                            <p class="text-xs text-slate-300"><strong>Ecuación de Continuidad:</strong> Conservación de masa. Permite calcular la velocidad de salida $v_2$ en función de la fracción de obstrucción $f$.</p>
+                            <p class="text-xs text-slate-300"><strong>Continuidad:</strong> Conservación de masa. Permite calcular la velocidad de salida $v_2$ según la obstrucción $f$.</p>
                         </div>
 
                         <!-- Step 2: Dynamics -->
@@ -346,7 +343,7 @@
                                 <p class="text-sm">$$\\sum F = m \\cdot a$$</p>
                                 <p class="text-sm mt-1">$$F_{\\text{neta}} = \\dot{m}(v_2 - v_1)$$</p>
                             </div>
-                            <p class="text-xs text-slate-300"><strong>Segunda Ley de Newton:</strong> Relaciona la fuerza neta requerida con el cambio temporal de momento del flujo con tasa de masa $\\dot{m} = \\rho Q$.</p>
+                            <p class="text-xs text-slate-300"><strong>Segunda Ley de Newton:</strong> Relaciona la fuerza neta requerida con el cambio temporal de momento del flujo.</p>
                         </div>
 
                         <!-- Step 3: Energy -->
@@ -356,7 +353,7 @@
                                 <p class="text-sm">$$E_c = \\frac{1}{2}m v^2$$</p>
                                 <p class="text-sm mt-1">$$W_{\\text{neto}} = \\Delta E_c$$</p>
                             </div>
-                            <p class="text-xs text-slate-300"><strong>Teorema Trabajo-Energía:</strong> El trabajo neto ejercido sobre el fluido se transforma íntegramente en variación de energía cinética.</p>
+                            <p class="text-xs text-slate-300"><strong>Teorema Trabajo-Energía:</strong> El trabajo neto ejercido sobre el fluido se transforma en variación de energía cinética.</p>
                         </div>
                     </div>
                 `
@@ -375,7 +372,7 @@
                                 <li>• Sección útil inicial: A1 = 3.00 m²</li>
                                 <li>• Velocidad de entrada: v1 = 1.00 m/s</li>
                                 <li>• Fracción obstruida: f = 0.60 → A2 = 1.20 m²</li>
-                                <li>• Longitud del tramo: L = 10.0 m</li>
+                                <li>• Longitud del tramo: L = 6.0 m</li>
                                 <li>• Tasa de masa: m_dot = ρ Q = 3000 kg/s</li>
                             </ul>
                         </div>
@@ -393,7 +390,7 @@
 
                             <div class="bg-slate-800/50 p-3 rounded-xl border border-slate-700">
                                 <span class="font-bold text-teal-300 block mb-1">Paso 3: Trabajo Neto Mecánico (W_neto)</span>
-                                <p>$$W_{\\text{neto}} = F_{\\text{neta}} \\cdot L = 4500\\text{ N} \\times 10.0\\text{ m} = \\mathbf{45,000\\text{ J}} = \\mathbf{45.000\\text{ kJ}}$$</p>
+                                <p>$$W_{\\text{neto}} = F_{\\text{neta}} \\cdot L = 4500\\text{ N} \\times 6.0\\text{ m} = \\mathbf{27,000\\text{ J}} = \\mathbf{27.000\\text{ kJ}}$$</p>
                             </div>
                         </div>
                     </div>
@@ -500,7 +497,7 @@
                         <div class="md:col-span-5 space-y-3 text-xs text-slate-300">
                             <div class="bg-slate-800/70 p-3.5 rounded-xl border border-slate-700">
                                 <h4 class="accent-text font-bold mb-1">🔍 Interpretación Física</h4>
-                                <p>En la simulación con perfil de área variable $A(x)$, la velocidad no crece linealmente, sino de forma curvilínea acelerándose intensamente cerca de la salida ($x = 10\\text{ m}$).</p>
+                                <p>En la simulación con perfil de área variable $A(x)$, la velocidad no crece linealmente, sino de forma curvilínea acelerándose intensamente cerca de la salida ($x = 6.0\\text{ m}$).</p>
                             </div>
                             <div class="bg-slate-800/70 p-3.5 rounded-xl border border-slate-700">
                                 <h4 class="text-amber-300 font-bold mb-1">⚠️ Hallazgo Clave</h4>
@@ -533,7 +530,7 @@
                             <div class="bg-slate-800/70 p-3 rounded-xl border border-slate-700">
                                 <h4 class="accent-text font-bold mb-1">📐 Trabajo como Integral</h4>
                                 <p>$$W_{\\text{neto}} = \\int_{0}^{L} F(x) dx$$</p>
-                                <p class="mt-1 text-[11px] text-slate-300">El trabajo representa geométricamente el área bajo la curva de fuerza a lo largo del desplazamiento $L = 10.0\\text{ m}$.</p>
+                                <p class="mt-1 text-[11px] text-slate-300">El trabajo representa geométricamente el área bajo la curva de fuerza a lo largo del desplazamiento $L = 6.0\\text{ m}$.</p>
                             </div>
                             <div class="bg-slate-800/70 p-3 rounded-xl border border-slate-700">
                                 <h4 class="text-teal-300 font-bold mb-1">✅ Conservación Energética</h4>
@@ -553,7 +550,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-auto">
                         <div class="bg-slate-800/70 p-4 rounded-xl border border-slate-700 space-y-2 text-xs">
                             <h4 class="accent-text font-bold text-sm">💻 Aporte del Perfil Variable A(x)</h4>
-                            <p class="text-slate-300">La simulación computacional evalúa una constricción progresiva $A(x) = A_1 + (A_2 - A_1)\frac{x}{L}$, permitiendo calcular el tiempo de tránsito exacto por integración numérica.</p>
+                            <p class="text-slate-300">La simulación computacional evalúa una constricción progresiva $A(x) = A_1 + (A_2 - A_1)\\frac{x}{L}$, permitiendo calcular el tiempo de tránsito exacto por integración numérica.</p>
                             
                             <div class="bg-slate-900 p-3 rounded border border-slate-800 my-2">
                                 <span class="font-bold text-slate-200 block mb-1">Resultados de Error en Tiempo de Tránsito:</span>
@@ -573,53 +570,39 @@
                 `
             },
 
-            // Slide 13: Explicación del Código Python
+            // Slide 13: Simulación Interactiva en Replit
             {
-                subtitle: "Modelación Algorítmica y Simulación Computacional",
-                title: "Estructura y Funcionamiento del Código Python",
+                subtitle: "Despliegue Web del Algoritmo Hidrodinámico",
+                title: "Simulación Computacional Interactiva en Replit & Python",
                 content: `
-                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 my-auto text-xs">
-                        <!-- Left Column: Python Code Snippet Display -->
-                        <div class="md:col-span-6 bg-slate-900/90 p-3.5 rounded-xl border border-slate-700 space-y-2">
-                            <div class="flex items-center justify-between border-b border-slate-700 pb-1.5">
-                                <span class="accent-text font-bold text-xs font-mono">🐍 Script Python: modelo_box_culvert.py</span>
-                                <span class="text-[10px] bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded font-mono">RK4 + Trapecio</span>
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto items-center">
+                        <div class="md:col-span-7 space-y-3 text-xs">
+                            <div class="bg-slate-800/80 p-4 rounded-xl border border-teal-500/35 space-y-2">
+                                <h4 class="accent-text font-bold text-sm">🚀 Integración en la Web con Replit</h4>
+                                <p class="text-slate-300 leading-relaxed">Para facilitar la reproducibilidad y el acceso interactivo a la modelación, el script de cálculo hidrodinámico y simulación RK4 fue desplegado en una aplicación web en vivo mediante Replit.</p>
+                                <div class="bg-slate-900 p-3 rounded border border-slate-700 text-slate-300 space-y-1">
+                                    <p><strong>URL de Acceso en Vivo:</strong></p>
+                                    <p class="font-mono text-teal-300 break-all text-[11px]">https://wealthy-prudent-betaversion--santana-hernand.replit.app/</p>
+                                </div>
                             </div>
-                            <pre class="bg-slate-950 p-2.5 rounded text-[10px] font-mono text-teal-200 overflow-x-auto leading-relaxed border border-slate-800 max-h-[250px]"><code><span class="text-slate-500"># 1. Definición Geométrico-Física</span>
-b, h, d, rho, g, v1 = 2.0, 1.5, 6.0, 1000.0, 9.81, 1.0
-A1 = b * h; Q = A1 * v1; hc = h / 2; P1 = rho * g * hc
-
-<span class="text-slate-500"># 2. Función de Integración Numérica RK4</span>
-<span class="text-purple-400">def</span> <span class="text-blue-400">simulate_constant_acceleration</span>(distance, initial_v, acceleration):
-    <span class="text-slate-500"># Integra dx/dt = v, dv/dt = a hasta x = d</span>
-    k1x, k1v = v, acceleration
-    k2x, k2v = v + 0.5*step*k1v, acceleration
-    k3x, k3v = v + 0.5*step*k2v, acceleration
-    k4x, k4v = v + step*k3v, acceleration
-    x_next = x + step * (k1x + 2*k2x + 2*k3x + k4x) / 6
-    <span class="text-purple-400">return</span> ts, xs, vs
-
-<span class="text-slate-500"># 3. Integración de Trabajo por Trapecios</span>
-<span class="text-purple-400">def</span> <span class="text-blue-400">trapezoid</span>(y, x):
-    <span class="text-purple-400">return</span> sum((y[i]+y[i+1])*(x[i+1]-x[i])/2 <span class="text-purple-400">for</span> i <span class="text-purple-400">in</span> range(len(x)-1))</code></pre>
-                            <p class="text-[10px] text-slate-400 italic">El script automatiza los cálculos hidrodinámicos y exporta los perfiles continuos a formato JSON.</p>
-                        </div>
-
-                        <!-- Right Column: Functionality Explanations -->
-                        <div class="md:col-span-6 space-y-2 text-xs">
-                            <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
-                                <h4 class="accent-text font-bold mb-1">⚙️ ¿Qué hace cada sección del código?</h4>
-                                <ul class="space-y-1.5 text-slate-300 text-[11px]">
-                                    <li>• <strong>Parametrización Inicial:</strong> Setea la geometría ($b=2.0\text{m}, h=1.5\text{m}, d=6.0\text{m}$), el caudal constante ($Q=3.0\text{m}^3/\text{s}$) y la presión hidrostática en el centroide ($P_1 = \rho g h_c$).</li>
-                                    <li>• <strong>Integrador RK4 (<code class="text-teal-300">simulate_constant_acceleration</code>):</strong> Integra las ecuaciones de movimiento cinemático a pasos de $0.001\text{ s}$, deteniendo el avance de forma exacta en el límite del conducto $x = d$.</li>
-                                    <li>• <strong>Módulo de Trapecios (<code class="text-teal-300">trapezoid</code>):</strong> Realiza la integración numérica del trabajo mecánico ($W = \int F dx$) a lo largo del recorrido.</li>
-                                    <li>• <strong>Bucle de Escenarios (A, B, C):</strong> Calcula para $f = 0, 0.3, 0.6$ las variables de continuidad ($v_2$), dinámica ($F = ma$ y $F=\rho Q \Delta v$), trabajo ($W$), Bernoulli ($P_2$), reacción estructural ($R_x$) y errores porcentuales relativos (<code class="text-teal-300">relative_error</code>).</li>
+                            <div class="bg-slate-800/60 p-3.5 rounded-xl border border-slate-700 text-slate-300">
+                                <h4 class="text-teal-300 font-bold mb-1">💻 Funcionalidades del Módulo Replit</h4>
+                                <ul class="space-y-1 text-[11px]">
+                                    <li>• Ejecución en tiempo real de los escenarios A, B y C.</li>
+                                    <li>• Integración numérica interactiva de la trayectoria $x(t)$ y $v(x)$.</li>
+                                    <li>• Generación automática de vectores JSON para gráficos comparativos.</li>
                                 </ul>
                             </div>
+                        </div>
 
-                            <div class="bg-teal-500/10 p-2 rounded-lg border border-teal-500/30 text-teal-300 text-[11px]">
-                                💡 <strong>Objeto Payload JSON:</strong> Consolida todos los vectores cinemáticos ($t, x, v, F$) para permitir la visualización gráfica directa en la interfaz interactiva.
-                            </div>
+                        <div class="md:col-span-5 bg-slate-900/90 p-4 rounded-xl border border-teal-500/40 flex flex-col items-center justify-center text-center space-y-3">
+                            <div class="w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-300 text-xl font-bold">🌐</div>
+                            <h4 class="text-sm font-bold text-white">Acceso Directo al Entorno Web</h4>
+                            <p class="text-[11px] text-slate-400">Haz clic en el botón inferior para abrir la simulación interactiva desplegada en la plataforma Replit en una nueva pestaña.</p>
+                            <a href="https://wealthy-prudent-betaversion--santana-hernand.replit.app/" target="_blank" class="bg-teal-400 hover:bg-teal-300 text-slate-950 px-5 py-2.5 rounded-lg font-bold transition shadow-md shadow-teal-500/20 text-xs inline-flex items-center gap-2 cursor-pointer">
+                                <span>Abrir Simulación en Replit</span>
+                                <span>↗</span>
+                            </a>
                         </div>
                     </div>
                 `
@@ -653,7 +636,7 @@ A1 = b * h; Q = A1 * v1; hc = h / 2; P1 = rho * g * hc
                 `
             },
 
-            // Slide 14: Viabilidad ingenieril y ambiental
+            // Slide 15: Viabilidad ingenieril y ambiental
             {
                 subtitle: "Propuesta de Criterio de Mantenimiento y Sustentabilidad",
                 title: "Viabilidad Ingenieril y Aspectos Ambientales",
@@ -679,7 +662,7 @@ A1 = b * h; Q = A1 * v1; hc = h / 2; P1 = rho * g * hc
                 `
             },
 
-            // Slide 15: Conclusiones y cierre
+            // Slide 16: Conclusiones y cierre
             {
                 subtitle: "Cierre Sintético de la Sustentación Académica",
                 title: "Conclusiones Principales y Referencias",
@@ -689,7 +672,7 @@ A1 = b * h; Q = A1 * v1; hc = h / 2; P1 = rho * g * hc
                             <h4 class="accent-text font-bold text-sm mb-2">📌 Conclusiones Fundamentales</h4>
                             <ul class="space-y-1.5 text-slate-300">
                                 <li class="bg-slate-800/60 p-2 rounded border border-slate-700">1. La reducción de la sección útil aumenta drásticamente la velocidad de salida (2.50 m/s en f=0.60).</li>
-                                <li class="bg-slate-800/60 p-2 rounded border border-slate-700">2. La fuerza neta (4.50 kN) y el trabajo (45.00 kJ) crecen no linealmente con la obstrucción.</li>
+                                <li class="bg-slate-800/60 p-2 rounded border border-slate-700">2. La fuerza neta (4.50 kN) y el trabajo (27.00 kJ) crecen no linealmente con la obstrucción.</li>
                                 <li class="bg-slate-800/60 p-2 rounded border border-slate-700">3. La energía cinética escala con v², alcanzando una relación de 6.25×.</li>
                                 <li class="bg-slate-800/60 p-2 rounded border border-slate-700">4. La simulación en Python demuestra que la aceleración uniforme subestima el tiempo de tránsito hasta en 22.5%.</li>
                             </ul>
